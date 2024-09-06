@@ -11,6 +11,8 @@ object JsonCodecs {
   // Automatic derivation of decoders and encoders for Order
   implicit val orderDecoder: Decoder[Order] = deriveDecoder[Order]
   implicit val orderEncoder: Encoder[Order] = deriveEncoder[Order]
+  implicit val orderNewDecoder: Decoder[OrderNew] = deriveDecoder[OrderNew]
+  implicit val orderNewEncoder: Encoder[OrderNew] = deriveEncoder[OrderNew]
 }
 
 case class Order(
@@ -21,4 +23,14 @@ case class Order(
                   totalAmount: Option[Double] = None
                 ){
   def withTotalAmount(amount: Double): Order = this.copy(totalAmount = Some(amount))
+}
+
+case class OrderNew(
+                  orderId: String,
+                  valueWithoutTaxes: String,
+                  countryCode: String,
+                  state: Option[String],
+                  totalAmount: Option[Double] = None
+                ){
+  def withTotalAmount(amount: Double): OrderNew = this.copy(totalAmount = Some(amount))
 }

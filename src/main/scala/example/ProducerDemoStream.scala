@@ -66,7 +66,7 @@ object ProducerDemoStream extends App {
   val kafkaProducerSource = source.zipWithIndex.map { case (order, idx) =>
     val orderJson = order.asJson.noSpaces // Serialize the Order to JSON using implicit encoder
     val key = (idx + 1).toString
-    new ProducerRecord[String, String]("test-topic", key, orderJson)
+    new ProducerRecord[String, String]("test-topic-dos", key, orderJson)
   }
 
   // Send the messages to Kafka using the producer

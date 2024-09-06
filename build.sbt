@@ -12,7 +12,7 @@ lazy val circeVersion = "0.14.1"
 lazy val root = (project in file("."))
   .settings(
     name := "producer",
-    Compile / mainClass := Some("example.ProducerDemoStream"),
+    Compile / mainClass := Some("example.ProducerSchedulerDemoStream"),
 
     libraryDependencies ++= Seq(
       "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion,
