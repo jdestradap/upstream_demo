@@ -25,7 +25,7 @@ object ProducerDemoStream extends App {
   implicit val ec: ExecutionContextExecutor = system.dispatcher
   import JsonCodecs._
 
-  val inputFilePath = Paths.get("src/main/resources/orders_100.csv")
+  val inputFilePath = Paths.get("src/main/resources/orders_100k.csv")
   val outputFilePath = Paths.get("src/main/resources/orders.json")
   // Kafka producer settings
   private val bootstrapServers: String = Option(System.getenv("KAFKA_BOOTSTRAP_SERVERS")).getOrElse("localhost:9092")
