@@ -10,13 +10,13 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization.StringSerializer
 import org.apache.kafka.clients.producer.ProducerConfig
 
-import scala.concurrent.ExecutionContextExecutor
+import scala.concurrent.{Await, ExecutionContextExecutor}
 import JsonCodecs._
 import akka.util.ByteString
 import example.CsvToJsonStream.{inputFilePath, parseOrder}
 
 import java.nio.file.Paths
-import scala.concurrent.duration.DurationInt // Import the JsonCodecs object for JSON encoding
+import scala.concurrent.duration.{Duration, DurationInt} // Import the JsonCodecs object for JSON encoding
 
 object ProducerDemoStream extends App {
 
@@ -26,7 +26,6 @@ object ProducerDemoStream extends App {
   import JsonCodecs._
 
   val inputFilePath = Paths.get("src/main/resources/orders_100k.csv")
-  val outputFilePath = Paths.get("src/main/resources/orders.json")
   // Kafka producer settings
   private val bootstrapServers: String = Option(System.getenv("KAFKA_BOOTSTRAP_SERVERS")).getOrElse("localhost:9092")
 
@@ -77,9 +76,8 @@ object ProducerDemoStream extends App {
     .onComplete {
       case scala.util.Success(_) =>
         println("Messages successfully sent to Kafka.")
-        system.terminate()
       case scala.util.Failure(e) =>
         println(s"Failed to send messages: ${e.getMessage}")
-        system.terminate()
     }
+  Await.result(system.whenTerminated, Duration.Inf)
 }
