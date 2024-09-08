@@ -24,7 +24,7 @@ object ProducerSchedulerDemoStream extends App {
   implicit val materializer: Materializer = SystemMaterializer(system).materializer
   implicit val ec: ExecutionContextExecutor = system.dispatcher
 
-  val inputFilePath = Paths.get("src/main/resources/orders.csv")
+  val inputFilePath = Paths.get("src/main/resources/orders_100.csv")
 
   // Kafka producer settings
   private val bootstrapServers: String = Option(System.getenv("KAFKA_BOOTSTRAP_SERVERS")).getOrElse("localhost:9092")
@@ -73,7 +73,7 @@ object ProducerSchedulerDemoStream extends App {
 
   // Schedule to run processCsvFile every 10 seconds
   val cancellable: Cancellable = system.scheduler.scheduleWithFixedDelay(
-    0.seconds, 10.seconds)(() => {
+    0.seconds, 60.seconds)(() => {
     val result = processCsvFile()
     result.onComplete {
       case Success(_) =>
